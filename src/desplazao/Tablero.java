@@ -2,7 +2,7 @@ package desplazao;
 
 import jdk.swing.interop.SwingInterOpUtils;
 
-public class Tamblero {
+public class Tablero {
     // 0 -> no está tocado
     // -1 -> no hay nada de mina
     // 1 -> hay la Mina
@@ -11,7 +11,7 @@ public class Tamblero {
     //dimension del tablero DIMxDIM
     private int DIMENSION;
 
-    public Tamblero(int DIM) {
+    public Tablero(int DIM) {
         this.DIMENSION = DIM;
         this.tableroMatriz = generarTablero();
     }
