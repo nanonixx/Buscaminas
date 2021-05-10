@@ -1,27 +1,46 @@
 package desplazao;
 
+
 import java.io.IOException;
-import java.net.*;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
-public class Client {
+public class Client extends Thread {
 
-    private MulticastSocket socket;
-    private InetAddress multicastIP;
-    private InetSocketAddress groupMulticast;
-    private NetworkInterface netIf;
+    String hostname;
+    int port;
+    Tablero tablero;
+    boolean acabat = false;
+    byte[] missatge;
 
-
-    public Client(int port, String ip) throws IOException {
-        this.socket = new MulticastSocket(port);
-        this.multicastIP = InetAddress.getByName(ip);
-        this.groupMulticast = new InetSocketAddress(multicastIP, port);
-        this.netIf = NetworkInterface.getByName("wlp0s20f3");;
+    public Client(String hostname, int port){
+        this.hostname = hostname;
+        this.port = port;
     }
 
-    public void RunClient() throws IOException {
-        socket.joinGroup(groupMulticast, netIf);
-        DatagramPacket packet;
+    public void run(){
+        Socket socket;
 
+        try{
+            socket = new Socket(InetAddress.getByName(hostname), port);
+            ObjectOutputStream outToServer = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream inFromServer = new ObjectInputStream(socket.getInputStream());
 
+            tablero = (Tablero) inFromServer.readObject();
+            tablero.mostrarTablero();
+            missatge = inFromServer.readAllBytes();
+
+            System.out.println();
+
+            while(!acabat){
+                //checkear turno, y hacer jugada
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
+
 }

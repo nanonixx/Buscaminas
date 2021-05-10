@@ -1,53 +1,45 @@
 package desplazao;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.InetAddress;
-import java.net.MulticastSocket;
+import java.net.*;
 import java.nio.ByteBuffer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Servidor {
 
-    public static class Server {
-        MulticastSocket socket;
-        InetAddress multicastIP;
-        int port;
-        boolean continueRunning = true;
+    int port;
 
-        public Server(int portValue, String strIp) throws IOException {
-            socket = new MulticastSocket(portValue);
-            multicastIP = InetAddress.getByName(strIp);
-            port = portValue;
-        }
+    public Servidor(int port ) {
+        this.port = port;
+    }
 
+    public void listen() {
+        ServerSocket serverSocket = null;
+        Socket clientSocket1 = null;
+        Socket clientSocket2 = null;
 
-        public void runServer() throws IOException {
-            DatagramPacket packet;
-            byte[] sendingData;
-
-            while (continueRunning) {
-                //sendingData = ByteBuffer.allocate(4).putInt(simulator.agafaVelocitat()).array();
-                //packet = new DatagramPacket(sendingData, sendingData.length,multicastIP, port);
-                //socket.send(packet);
-
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    ex.getMessage();
+        try {
+            serverSocket = new ServerSocket(port);
+            while(true) { //esperar connexió del client i llançar thread
+                clientSocket1 = serverSocket.accept();
+                clientSocket2 = serverSocket.accept();
+                if(clientSocket1.isConnected() && clientSocket2.isConnected()) {
+                    //Llançar Thread per establir la comunicació
+                    ThreadServidor FilServidor = new ThreadServidor(clientSocket1, clientSocket2);
+                    Thread client = new Thread(FilServidor);
+                    client.start();
                 }
-
-
             }
-            socket.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
-        public static void main(String[] args) throws IOException {
-            //Canvieu la X.X per un número per formar un IP.
-            //Que no sigui la mateixa que la d'un altre company
-            Server srv = new Server(5557, "224.0.22.116");
-            srv.runServer();
-            System.out.println("Parat!");
+    public static void main(String[] args) {
 
-        }
+        Servidor srv = new Servidor(5558);
+        srv.listen();
+
     }
 }

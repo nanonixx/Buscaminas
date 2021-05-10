@@ -1,6 +1,8 @@
 package desplazao;
 
-public class Casilla {
+import java.io.Serializable;
+
+public class Casilla implements Serializable {
     public boolean mina;
     public String marca;
 

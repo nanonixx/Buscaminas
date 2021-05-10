@@ -4,7 +4,9 @@ import jdk.swing.interop.SwingInterOpUtils;
 
 import java.util.Random;
 
-public class Tablero {
+import java.io.Serializable;
+
+public class Tablero implements Serializable {
     // 0 -> no está tocado
     // -1 -> no hay nada de mina
     // 1 -> hay la Mina
