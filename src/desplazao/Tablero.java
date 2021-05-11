@@ -18,6 +18,14 @@ public class Tablero implements Serializable {
     private final int DIMENSION;
 
     Random random;
+    
+    public static final String CYAN = "\u001B[36m";
+    public static final String PURPLE = "\u001B[35m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String YELLOW = "\u001B[33m";
+    public static final String ANSI_RESET = "\u001B[0m";
+    
+    
 
     public Tablero(int DIM, int numMinas) {
         this.numMinas = numMinas;
@@ -30,7 +38,7 @@ public class Tablero implements Serializable {
 
         for (int i = 0; i < DIMENSION; i++) {
             for (int j = 0; j < DIMENSION; j++) {
-                tableroMatriz[i][j] = new Casilla(i+""+j);
+                tableroMatriz[i][j] = new Casilla(+i+""+j);
             }
         }
 
@@ -55,11 +63,11 @@ public class Tablero implements Serializable {
         for (int i = 0; i < DIMENSION; i++) {
             for (int j = 0; j < DIMENSION; j++) {
                 if (j==0) System.out.print(i + "   ");
-                System.out.print("| " + tableroMatriz[i][j].marca + " ");
+                System.out.print(PURPLE+"| " + ANSI_RESET + tableroMatriz[i][j].marca + " ");
 //                System.out.print("| " + tableroMatriz[i][j].mina + " ");
                 //activar el comment de arriba para ver las minas
             }
-            System.out.println("|\n");
+            System.out.println(PURPLE+"|\n"+ANSI_RESET);
         }
         System.out.print("       0    1    2    3    4    5    6    7");
     }
@@ -76,14 +84,44 @@ public class Tablero implements Serializable {
     		
     	}    	
     	else if (tableroMatriz[fila][columna].mina) {
-        	tableroMatriz[fila][columna].marca = String.valueOf(player+" ");
+        	if (player==1)tableroMatriz[fila][columna].marca = String.valueOf(GREEN+"M1");
+        	if (player==2)tableroMatriz[fila][columna].marca = String.valueOf(YELLOW+"M1");
         	return 1; //mina encontrada
         }
         else {
-        	tableroMatriz[fila][columna].marca = "-";
+        	int minasAlrededor = destape(coor);
+        	tableroMatriz[fila][columna].marca = String.valueOf(CYAN+minasAlrededor + "*");
         	return 0; //mina no encontrada
         }
     	
+    }
+    
+    //Método que pone los numeritos alrededor
+    public int destape(String coor) {
+    	int fila = Integer.parseInt(coor.substring(0, 1));
+    	int columna = Integer.parseInt(coor.substring(1));
+    	
+    	int minasAlrededor = 0;
+    	
+    	//fila1 (3)
+    	if (fila!=0 && columna!=0) if (tableroMatriz[fila-1][columna-1].mina) minasAlrededor++;
+    	if (columna!=0) if (tableroMatriz[fila][columna-1].mina) minasAlrededor++;
+    	if (fila!=DIMENSION && columna!=0) if (tableroMatriz[fila+1][columna-1].mina) minasAlrededor++;
+    	
+    	//fila2 (2)
+    	
+    	if (fila!=0) if (tableroMatriz[fila-1][columna].mina) minasAlrededor++;
+    	if (fila!=DIMENSION) if (tableroMatriz[fila+1][columna].mina) minasAlrededor++;
+    	
+    	//fila3 (3)
+    	
+
+    	if (fila!=0 && columna!=DIMENSION) if (tableroMatriz[fila-1][columna+1].mina) minasAlrededor++;
+    	if (columna!=DIMENSION) if (tableroMatriz[fila][columna+1].mina) minasAlrededor++;
+    	if (fila!=DIMENSION && columna!=DIMENSION) if (tableroMatriz[fila+1][columna+1].mina) minasAlrededor++;
+    	
+    	
+    	return minasAlrededor;
     }
 
 
