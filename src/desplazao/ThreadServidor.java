@@ -30,16 +30,18 @@ public class ThreadServidor implements Runnable{
             ObjectOutputStream outToClient2 = new ObjectOutputStream(clientSocket2.getOutputStream());
             ObjectInputStream inFromClient2 = new ObjectInputStream(clientSocket2.getInputStream());
 
+            outToClient1.writeObject("Ets el jugador 1");
+            outToClient2.writeObject("Ets el jugador 2");
+            Thread.sleep(2000);
             outToClient1.writeObject(tablero);
             outToClient2.writeObject(tablero);
 
-            outToClient1.write("Ets el jugador 1".getBytes(StandardCharsets.UTF_8));
-            outToClient2.write("Ets el jugador 2".getBytes(StandardCharsets.UTF_8));
+
 
             while(!acabat){
                 //enviar turno
             }
-        }catch (IOException e) {
+        }catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
