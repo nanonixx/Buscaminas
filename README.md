@@ -1,13 +1,21 @@
-## Buscaminas
-# buscaminas en conexion por desplazao studio
+# Buscaminas en conexión por Desplazao Studio™
 
-desplazao studio presents: * EL BUSCAMINAS"
-     "*- bienvdneiod o bienvenmida al seGUNDO MEgor juego de la hsitoria -*"
+### Resumen  
+     Es un buscaminas de terminal donde puedes jugar en conexión (TCP) contra otro jugador.
+     (es el segundo megor jeugo del mundo)
      
-    > // 0 -> no está tocado
-    > // -1 -> no hay nada de mina
-    > // 1 -> hay la Mina
-    > int[][] tableroMatriz;
+  <img src="https://user-images.githubusercontent.com/62404395/117803986-85b40b00-b257-11eb-8192-40689dfa43c4.png"  width="300" title="terminal">
 
-    > //dimension del tablero DIMxDIM
-    > private int DIMENSION;
+    
+    > N* indica el número de minas alrededor
+    > MN indica qué se ha encontrado una mina y el jugador que lo ha hecho
+    > NN indica la coordenada de la casilla
+   
+
+### Objetivo
+
+     Has de encontrar más minas que el rival. Para eso le das a los sitios donde crees que hay minas y si hay minas te llevas un punto pa casa.
+     Cuando ya no hay más minas gana el que más puntos tiene... ¡a no ser que empates! :O
+     
+     
+     
