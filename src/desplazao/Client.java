@@ -54,9 +54,11 @@ public class Client extends Thread {
                     System.out.println("\nCoordenades: ");
                     jugada = scanner.nextLine();
                     outToServer.writeObject(jugada);
+
                 }else{
                     missatge = (String) inFromServer.readObject();
                     System.out.println(missatge);
+                    tablero = (Tablero) inFromServer.readObject();
                 }
 
             }

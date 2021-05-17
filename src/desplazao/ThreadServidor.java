@@ -11,7 +11,6 @@ public class ThreadServidor implements Runnable{
     Socket clientSocket1 = null;
     Socket clientSocket2 = null;
     Tablero tablero;
-    boolean acabat = false;
     boolean torn = true;
     byte[] missatge;
     Juego juego;
@@ -44,7 +43,7 @@ public class ThreadServidor implements Runnable{
 //            outToClient1.writeObject(tablero);
 //            outToClient2.writeObject(tablero);
 
-            while(!acabat){
+            while(!juego.isGameOver()){
                 //enviar turno
                 if(torn){
                     outToClient1.writeObject(true);
@@ -55,6 +54,12 @@ public class ThreadServidor implements Runnable{
                     outToClient2.writeObject("El jugador 1 està fent la seva jugada");
 
                     jugada = (String) inFromClient1.readObject();
+
+                    //AQUI LLAMAR LOS METODOS PARA PROCESAR LA JUGADA
+                    tablero = juego.start(jugada, tablero, true);
+
+                    outToClient2.writeObject(tablero);
+
                     torn = !torn;
 
                 }else{
@@ -66,6 +71,11 @@ public class ThreadServidor implements Runnable{
                     outToClient1.writeObject("El jugador 2 està fent la seva jugada");
 
                     jugada = (String) inFromClient2.readObject();
+
+                    tablero = juego.start(jugada, tablero, false);
+
+                    outToClient1.writeObject(tablero);
+
                     torn = !torn;
                 }
 
