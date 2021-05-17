@@ -43,7 +43,7 @@ public class Client extends Thread {
 
             while(!acabat){
 
-                //checkear turno, y hacer jugada
+                //checkear turno, y hacer jugadaa
                 torn = (boolean) inFromServer.readObject();
 
                 if(torn == jugador){
