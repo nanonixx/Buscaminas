@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Client extends Thread {
 
@@ -17,6 +18,8 @@ public class Client extends Thread {
     Tablero tablero;
     boolean acabat = false;
     String missatge;
+    boolean jugador, torn;
+    String jugada;
 
     public Client(String hostname, int port){
         this.hostname = hostname;
@@ -25,6 +28,7 @@ public class Client extends Thread {
 
     public void run(){
         Socket socket;
+        Scanner scanner = new Scanner(System.in);
 
         try{
             socket = new Socket(InetAddress.getByName(hostname), port);
@@ -34,12 +38,27 @@ public class Client extends Thread {
             missatge = (String)  inFromServer.readObject();
             System.out.println(missatge);
 
-            tablero = (Tablero) inFromServer.readObject();
-            tablero.mostrarTablero();
-            System.out.println();
+            jugador = (boolean) inFromServer.readObject();
+            //System.out.println(jugador);
 
             while(!acabat){
+
                 //checkear turno, y hacer jugada
+                torn = (boolean) inFromServer.readObject();
+
+                if(torn == jugador){
+                    tablero = (Tablero) inFromServer.readObject();
+                    missatge = (String) inFromServer.readObject();
+                    tablero.mostrarTablero();
+                    System.out.println("\n" + missatge);
+                    System.out.println("\nCoordenades: ");
+                    jugada = scanner.nextLine();
+                    outToServer.writeObject(jugada);
+                }else{
+                    missatge = (String) inFromServer.readObject();
+                    System.out.println(missatge);
+                }
+
             }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
