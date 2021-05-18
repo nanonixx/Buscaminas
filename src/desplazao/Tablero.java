@@ -7,7 +7,7 @@ import java.util.Random;
 import java.io.Serializable;
 
 public class Tablero implements Serializable {
-    // ? -> no está tocado
+    // ? -> no estï¿½ tocado
     // -  -> No hay la mina
     // 1 -> hay la Mina de P1
 	//2 -> hay mina de P2
@@ -83,7 +83,7 @@ public class Tablero implements Serializable {
     	}    	
     	else if (tableroMatriz[fila][columna].mina) {
         	if (player)tableroMatriz[fila][columna].marca = String.valueOf(GREEN+"M1");
-        	if (!player)tableroMatriz[fila][columna].marca = String.valueOf(YELLOW+"M1");
+        	if (!player)tableroMatriz[fila][columna].marca = String.valueOf(YELLOW+"M2");
         	return 1; //mina encontrada
         }
         else {
