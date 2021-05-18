@@ -40,10 +40,10 @@ public class ThreadServidor implements Runnable{
 
             Thread.sleep(2000);
 
-//            outToClient1.writeObject(tablero);
-//            outToClient2.writeObject(tablero);
-
             while(!juego.isGameOver()){
+                outToClient1.reset();
+                outToClient2.reset();
+
                 //enviar turno
                 if(torn){
                     outToClient1.writeObject(true);
@@ -55,10 +55,12 @@ public class ThreadServidor implements Runnable{
 
                     jugada = (String) inFromClient1.readObject();
 
-                    //AQUI LLAMAR LOS METODOS PARA PROCESAR LA JUGADA
-                    tablero = juego.start(jugada, tablero, true);
+                    //metodo que procesa la jugada y devuelve el tablero actualizado
 
-                    outToClient2.writeObject(tablero);
+                    tablero = juego.start(jugada, tablero, true);
+                    outToClient1.reset();
+
+                    outToClient1.writeObject(tablero);
 
                     torn = !torn;
 
@@ -74,14 +76,31 @@ public class ThreadServidor implements Runnable{
 
                     tablero = juego.start(jugada, tablero, false);
 
-                    outToClient1.writeObject(tablero);
+                    outToClient2.reset();
+                    outToClient2.writeObject(tablero);
 
                     torn = !torn;
                 }
 
+                outToClient1.writeObject(juego.isGameOver());
+                outToClient2.writeObject(juego.isGameOver());
+
                 outToClient1.flush();
                 outToClient2.flush();
             }
+
+            if(juego.getMinasCazadasP1() > juego.getMinasCazadasP2()){
+                outToClient1.writeObject("Guanyes amb " + juego.getMinasCazadasP1() + " mines trobades");
+                outToClient2.writeObject("Guanya el jugador 1 amb " +juego.getMinasCazadasP1() + "trobades\nHas trobat: " + juego.getMinasCazadasP2());
+            }
+            else if(juego.getMinasCazadasP1() < juego.getMinasCazadasP2()){
+                outToClient2.writeObject("Guanyes amb " + juego.getMinasCazadasP2() + "trobades");
+                outToClient1.writeObject("Guanya el jugador 2 amb " +juego.getMinasCazadasP2() + " mines trobades\nHas trobat: " + juego.getMinasCazadasP1());
+            }else{
+                outToClient1.writeObject("Empat");
+                outToClient2.writeObject("Empat");
+            }
+
         }catch (IOException | InterruptedException | ClassNotFoundException e) {
             e.printStackTrace();
         }

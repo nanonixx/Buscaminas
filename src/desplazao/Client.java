@@ -39,29 +39,40 @@ public class Client extends Thread {
             System.out.println(missatge);
 
             jugador = (boolean) inFromServer.readObject();
-            //System.out.println(jugador);
 
             while(!acabat){
-
                 //checkear turno, y hacer jugadaa
                 torn = (boolean) inFromServer.readObject();
 
                 if(torn == jugador){
                     tablero = (Tablero) inFromServer.readObject();
                     missatge = (String) inFromServer.readObject();
+
                     tablero.mostrarTablero();
+
                     System.out.println("\n" + missatge);
                     System.out.println("\nCoordenades: ");
                     jugada = scanner.nextLine();
+
                     outToServer.writeObject(jugada);
+
+                    tablero = (Tablero) inFromServer.readObject();
+                    tablero.mostrarTablero();
+
+                    acabat = (boolean) inFromServer.readObject();
 
                 }else{
                     missatge = (String) inFromServer.readObject();
-                    System.out.println(missatge);
-                    tablero = (Tablero) inFromServer.readObject();
+                    System.out.println("\n"+missatge);
+
+                    acabat = (boolean) inFromServer.readObject();
                 }
 
             }
+
+            missatge = (String) inFromServer.readObject();
+            System.out.println("\n"+missatge);
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

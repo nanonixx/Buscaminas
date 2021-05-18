@@ -14,6 +14,14 @@ public class Juego {
     private int minasCazadasP1 = 0;
     private int minasCazadasP2 = 0;
 
+    public int getMinasCazadasP1() {
+        return minasCazadasP1;
+    }
+
+    public int getMinasCazadasP2() {
+        return minasCazadasP2;
+    }
+
     public Tablero start(String coor, Tablero tablero, boolean player) {
         //valid = false;
         //para repetir turno si no se introducen bien los parámetros
@@ -28,7 +36,7 @@ public class Juego {
         } catch (Exception e) {
             System.err.println(e);
         }
-        if (minasCazadasP1 + minasCazadasP2 != tablero.numMinas) gameOver = false;
+        if (minasCazadasP1 + minasCazadasP2 == tablero.numMinas) gameOver = true;
         return tablero;
     }
 }
