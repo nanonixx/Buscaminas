@@ -94,7 +94,7 @@ public class ThreadServidor implements Runnable{
                 outToClient2.writeObject("Guanya el jugador 1 amb " +juego.getMinasCazadasP1() + " mines trobades\nHas trobat: " + juego.getMinasCazadasP2());
             }
             else if(juego.getMinasCazadasP1() < juego.getMinasCazadasP2()){
-                outToClient2.writeObject("Guanyes amb " + juego.getMinasCazadasP2() + "trobades");
+                outToClient2.writeObject("Guanyes amb " + juego.getMinasCazadasP2() + " mines trobades");
                 outToClient1.writeObject("Guanya el jugador 2 amb " +juego.getMinasCazadasP2() + " mines trobades\nHas trobat: " + juego.getMinasCazadasP1());
             }else{
                 outToClient1.writeObject("Empat");
