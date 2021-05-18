@@ -20,9 +20,8 @@ public class Tablero implements Serializable {
     public static final String CYAN = "\u001B[36m";
     public static final String PURPLE = "\u001B[35m";
     public static final String GREEN = "\u001B[32m";
-    public static final String YELLOW = "\u001B[33m";
+    public static final String RED = "\u001B[31m";
     public static final String ANSI_RESET = "\u001B[0m";
-    
     
 
     public Tablero(int DIM, int numMinas) {
@@ -83,7 +82,7 @@ public class Tablero implements Serializable {
     	}    	
     	else if (tableroMatriz[fila][columna].mina) {
         	if (player)tableroMatriz[fila][columna].marca = String.valueOf(GREEN+"M1");
-        	if (!player)tableroMatriz[fila][columna].marca = String.valueOf(YELLOW+"M2");
+        	if (!player)tableroMatriz[fila][columna].marca = String.valueOf(RED+"M2");
         	return 1; //mina encontrada
         }
         else {
@@ -94,7 +93,7 @@ public class Tablero implements Serializable {
     	
     }
     
-    //M?todo que pone los numeritos alrededor
+    //TODO que pone los numeritos alrededor
     public int destape(String coor) {
     	int fila = Integer.parseInt(coor.substring(0, 1));
     	int columna = Integer.parseInt(coor.substring(1));
@@ -107,18 +106,14 @@ public class Tablero implements Serializable {
     	if (fila!=DIMENSION-1 && columna!=0) if (tableroMatriz[fila+1][columna-1].mina) minasAlrededor++;
     	
     	//fila2 (2)
-    	
     	if (fila!=0) if (tableroMatriz[fila-1][columna].mina) minasAlrededor++;
     	if (fila!=DIMENSION-1) if (tableroMatriz[fila+1][columna].mina) minasAlrededor++;
     	
     	//fila3 (3)
-    	
-
     	if (fila!=0 && columna!=DIMENSION-1) if (tableroMatriz[fila-1][columna+1].mina) minasAlrededor++;
     	if (columna!=DIMENSION-1) if (tableroMatriz[fila][columna+1].mina) minasAlrededor++;
     	if (fila!=DIMENSION-1 && columna!=DIMENSION-1) if (tableroMatriz[fila+1][columna+1].mina) minasAlrededor++;
-    	
-    	
+
     	return minasAlrededor;
     }
 

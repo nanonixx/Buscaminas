@@ -9,7 +9,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int op;
 
-        Client client = new Client("localhost", 5558);
+        Client client = new Client("192.168.22.113", 5558);
 
         System.out.println("1-Jugar\n2-Sortir");
         op = scanner.nextInt();

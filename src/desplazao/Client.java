@@ -71,7 +71,7 @@ public class Client extends Thread {
             }
 
             missatge = (String) inFromServer.readObject();
-            System.out.println("\n"+missatge);
+            System.out.println("\n "+missatge);
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
