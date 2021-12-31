@@ -2,7 +2,6 @@ package desplazao;
 
 import java.io.IOException;
 import java.net.*;
-import java.nio.ByteBuffer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,8 +20,12 @@ public class Servidor {
 
         try {
             serverSocket = new ServerSocket(port);
+
+            Logger.getLogger(Servidor.class.getName()).log(Level.INFO, "Escoltant al port 5558.....");
+            Logger.getLogger(Servidor.class.getName()).log(Level.INFO, "Esperant jugadors......");
+
             while(true) { //esperar connexió del client i llançar thread
-                clientSocket1 = serverSocket.accept();
+               clientSocket1 = serverSocket.accept();
                 clientSocket2 = serverSocket.accept();
                 if(clientSocket1.isConnected() && clientSocket2.isConnected()) {
                     //Llançar Thread per establir la comunicació
@@ -39,7 +42,7 @@ public class Servidor {
     public static void main(String[] args) {
 
         Servidor srv = new Servidor(5558);
+        Logger.getLogger(Servidor.class.getName()).log(Level.INFO, "Servidor en marxa.");
         srv.listen();
-
     }
 }

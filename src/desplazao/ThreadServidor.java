@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ThreadServidor implements Runnable{
 
@@ -19,6 +21,7 @@ public class ThreadServidor implements Runnable{
     public ThreadServidor(Socket clientSocket1, Socket clientSocket2) {
         this.clientSocket1 = clientSocket1;
         this.clientSocket2 = clientSocket2;
+        Logger.getLogger(Servidor.class.getName()).log(Level.INFO, "Comença una nova partida");
         tablero = new Tablero(8, 10);
         juego = new Juego();
     }
@@ -52,6 +55,7 @@ public class ThreadServidor implements Runnable{
                     outToClient1.writeObject(tablero);
                     outToClient1.writeObject("Fes la teva jugada");
                     outToClient2.writeObject("El jugador 1 està fent la seva jugada");
+                    Logger.getLogger(Servidor.class.getName()).log(Level.INFO, "Torn del jugador 1");
 
                     jugada = (String) inFromClient1.readObject();
 
@@ -71,6 +75,7 @@ public class ThreadServidor implements Runnable{
                     outToClient2.writeObject(tablero);
                     outToClient2.writeObject("Fes la teva jugada");
                     outToClient1.writeObject("El jugador 2 està fent la seva jugada");
+                    Logger.getLogger(Servidor.class.getName()).log(Level.INFO, "Torn del jugador 2");
 
                     jugada = (String) inFromClient2.readObject();
 
@@ -85,8 +90,13 @@ public class ThreadServidor implements Runnable{
                 outToClient1.writeObject(juego.isGameOver());
                 outToClient2.writeObject(juego.isGameOver());
 
+
                 outToClient1.flush();
                 outToClient2.flush();
+            }
+
+            if (juego.isGameOver()){
+                Logger.getLogger(Servidor.class.getName()).log(Level.INFO, "FI DEL JOC");
             }
 
             if(juego.getMinasCazadasP1() > juego.getMinasCazadasP2()){
