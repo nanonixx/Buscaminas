@@ -25,6 +25,7 @@ public class Client extends Thread {
 
     public void run(){
         Socket socket;
+
         Scanner scanner = new Scanner(System.in);
 
         try{
@@ -43,6 +44,8 @@ public class Client extends Thread {
 
                 if(torn == jugador){
                     tablero = (Tablero) inFromServer.readObject();
+                    int minasRestantes =  (int) inFromServer.readObject();
+                    System.out.println("MINES RESTANTS: " + minasRestantes);
                     missatge = (String) inFromServer.readObject();
 
                     tablero.mostrarTablero();

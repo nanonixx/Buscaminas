@@ -17,6 +17,7 @@ public class ThreadServidor implements Runnable{
     byte[] missatge;
     Juego juego;
     String jugada;
+    private int minasRestantes;
 
     public ThreadServidor(Socket clientSocket1, Socket clientSocket2) {
         this.clientSocket1 = clientSocket1;
@@ -53,6 +54,10 @@ public class ThreadServidor implements Runnable{
                     outToClient2.writeObject(true);
 
                     outToClient1.writeObject(tablero);
+                    // print(quedan X minas)
+                    minasRestantes =  tablero.numMinas - (juego.getMinasCazadasP1() + juego.getMinasCazadasP2());
+                    outToClient1.writeObject(minasRestantes);
+
                     outToClient1.writeObject("Fes la teva jugada");
                     outToClient2.writeObject("El jugador 1 està fent la seva jugada");
                     Logger.getLogger(Servidor.class.getName()).log(Level.INFO, "Torn del jugador 1");
@@ -73,6 +78,8 @@ public class ThreadServidor implements Runnable{
                     outToClient1.writeObject(false);
 
                     outToClient2.writeObject(tablero);
+                    minasRestantes = tablero.numMinas - (juego.getMinasCazadasP1() + juego.getMinasCazadasP2());
+                    outToClient2.writeObject(minasRestantes);
                     outToClient2.writeObject("Fes la teva jugada");
                     outToClient1.writeObject("El jugador 2 està fent la seva jugada");
                     Logger.getLogger(Servidor.class.getName()).log(Level.INFO, "Torn del jugador 2");
